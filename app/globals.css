@@ -3,5 +3,18 @@
 @tailwind utilities;
 
 .bgg{
-  background: url;
+  background: url('https://images.pexels.com/photos/8484204/pexels-photo-8484204.jpeg?auto=compress&cs=tinysrgb');
+  background-size: cover;  /* Cover the entire container */
+  background-position: top; /* Center the image */
+  /* height: ; */
+  opacity: .8;
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+.mod::-webkit-scrollbar
+{
+display: none;
 }
