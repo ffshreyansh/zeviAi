@@ -7,8 +7,21 @@ import React, { useState } from 'react'
 const page = () => {
     const [clicked, setClicked] = useState(true);
 
-
+    const [filters, setFilters] = useState({
+        // brand: [],
+        // price: [],
+        rating: [],
+      });
+    
+      const handleFilterChange = (filterType, value) => {
+        // Update filters based on filterType (brand, price, rating)
+        setFilters(prevFilters => ({
+          ...prevFilters,
+          [filterType]: value,
+        }));
+      };
    
+      console.log(filters)
 
     return (
         <div className='w-full flex flex-col gap-6 items-start h-screen p-2 lg:p-10'>
@@ -67,7 +80,7 @@ const page = () => {
                             </span>
                             <div className='flex flex-col py-5 gap-3 '>
                                 <span className='text-xs lg:text-lg font-normal flex items-center gap-2'>
-                                    <input type="checkbox" className='w-5 h-5' name="range" id="under5" />
+                                    <input type="checkbox" className='w-5 h-5' name="range" id="under5" onChange={() => handleFilterChange('rating', [5])} />
                                     5 Stars
                                 </span>
                                 <span className='text-xs lg:text-lg font-normal flex items-center gap-2'>
@@ -84,7 +97,7 @@ const page = () => {
                         </div>
 
                     </div>
-                    <Products/>
+                    <Products filters={filters}/>
                 </div>
             </div>
         </div>
