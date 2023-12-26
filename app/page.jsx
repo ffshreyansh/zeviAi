@@ -23,10 +23,10 @@ export default function Home() {
   };
 
   return (
-    <div className='min-h-screen w-full p-10  bgg'>
+    <div className='min-h-screen w-full p-2 lg:p-10  bgg'>
         <img src="/zevi.webp" width={80} alt="zevi logo" className='ml-auto' />
-        <div className='w-full '>
-            <div className='w-2/3 flex items-center justify-between bg-white mx-auto rounded-xl px-5 py-4'>
+        <div className='w-full mt-5 lg:mt-0'>
+            <div className='w-full lg:w-2/3 flex items-center justify-between bg-white mx-auto rounded-xl px-5 py-2 lg:py-4'>
                 <input type="text" className='w-3/4 outline-none py-2' name="" id="" required   onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder='Search Products... eg: Jeans'/>
                 <Link href={'/products'}>
                 <img width="28" height="28" src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/external-search-logistic-delivery-kiranshastry-solid-kiranshastry.png" alt="external-search-logistic-delivery-kiranshastry-solid-kiranshastry"/>
