@@ -22,13 +22,12 @@ const Modal = ({ showModal }) => {
 
     console.log(latestTrends);
 
-    const fadeInUpVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0 },
-      };
+    // const fadeInUpVariants = {
+    //     hidden: { opacity: 0, y: 30 },
+    //     visible: { opacity: 1, y: 0 },
+    //   };
 
       const handleModalClick = (e) => {
-        // Preventing the click inside the modal from reaching the input
         e.preventDefault();
       };
 
@@ -36,7 +35,7 @@ const Modal = ({ showModal }) => {
         <div 
         className={`w-full lg:w-3/4 mx-auto rounded-md bg-white p-4 lg:p-10 mt-8 flex flex-col overflow-y-scroll mod`} onMouseDown={handleModalClick}>
             <h6 className='text-2xl font-semibold'>Latest Trends</h6>
-            <div className='flex flex-col items-start justify-between w-full gap-6 mt-6'>
+            <div className='flex flex-col lg:flex-row items-start justify-between w-full gap-6 mt-6'>
                 {latestTrends.map((product, index) => (
                     <div className='w-full lg:w-1/5 cursor-pointer' key={index}>
                         <img src={product.image} alt={product.name} className='w-full h-60 rounded-md mb-2 object-cover' />
