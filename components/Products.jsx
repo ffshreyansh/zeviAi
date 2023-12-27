@@ -2,27 +2,25 @@
 import { faker } from '@faker-js/faker';
 import Link from 'next/link';
 import React, { useMemo, useState, useEffect } from 'react'
-import Loader from './loader';
 
 
 const Products = ({ filters }) => {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
+    // const [hovered, setHovered] = useState(false);
+    const [hoveredStates, setHoveredStates] = useState(Array(products.length).fill(false));
+
     useEffect(() => {
-        // Simulate fetching data, replace with your actual data fetching logic
         const fetchData = async () => {
             setLoading(true);
-
-            // Simulating API call delay
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Generate fake products
             const generatedProducts = Array.from({ length: 20 }, () => ({
                 name: faker.commerce.productName(),
                 image: faker.image.url(),
                 rating: faker.datatype.number({ min: 1, max: 5 }),
                 oldprice: faker.datatype.number({ min: 350, max: 999 }),
-                price: faker.datatype.number({ min: 120, max: 345 }),
+                price: faker.datatype.number({ min: 120, max: 3000 }),
                 reviews: faker.datatype.number({ min: 121, max: 212 })
             }));
 
@@ -32,7 +30,7 @@ const Products = ({ filters }) => {
 
         fetchData();
     }, [filters]);
-
+    console.log(products);
     const initialLikes = Array(products.length).fill(false);
     const [likes, setLikes] = useState(initialLikes);
 
@@ -43,9 +41,16 @@ const Products = ({ filters }) => {
             const priceFilter = !filters.price || filters.price.includes(product.price);
             const ratingFilter = !filters.rating || filters.rating.includes(product.rating);
 
-            return ratingFilter;
+            return ratingFilter && priceFilter;
         });
     }, [products, filters]);
+
+    const handleHover = (index, isHovered) => {
+        const updatedHoveredStates = [...hoveredStates];
+        updatedHoveredStates[index] = isHovered;
+        setHoveredStates(updatedHoveredStates);
+    };
+
 
     const generateRatingStars = (rating) => {
         const stars = [];
@@ -60,41 +65,15 @@ const Products = ({ filters }) => {
 
     return (
 
-        loading ? (<img src='/loader.svg' className='absolute left-1/2 top-1/2 right-1/2' width={50}/>) : (
+        loading ? (<img src='/loader.svg' className='absolute left-1/2 top-1/2 right-1/2 transform -translate-x-1/2' width={50} />) : (
             <div className='w-full lg:w-3/4 overflow-y-scroll h-screen mod'>
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-8">
-                    {/* Generate filtered items or all items if no filters applied */}
+                    {/* Filtered Items */}
                     {(filters.rating.length)
                         ? filteredProducts.map((product, index) => (
-                            // ... existing code
-                            <div className='w-full cursor-pointer relative' key={index}>
-                                <img src={product.image} alt={product.name} className='w-full h-80 rounded-md mb-2 object-cover' />
-                                <img src={likes[index] ? '/liked.svg' : '/like.svg'} width={24} className='absolute right-5 top-5 ' alt=""
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        const updatedLikes = [...likes];
-                                        updatedLikes[index] = !updatedLikes[index];
-                                        setLikes(updatedLikes);
-                                    }} />
-                                <div className='flex flex-col items-start'>
-                                    <Link href="/products" className='text-md font-medium'>
-                                        {product.name}
-                                    </Link>
-                                    <div className='flex items-center gap-2'>
-                                        <span className=' line-through text-gray-400 font-normal'>{product.oldprice}</span>
-                                        <span className=' font-medium text-blue-500'>Rs. {product.price}</span>
-                                    </div>
-                                    <span className='flex items-center gap-2 text-xs'>
-                                        {generateRatingStars(product.rating)}
-                                        ({product.reviews})
-                                    </span>
-                                </div>
-                            </div>
-                        ))
-                        : products.map((product, index) => (
-                            // ... existing code
-                            <div className='w-full cursor-pointer relative' key={index}>
-                                <img src={product.image} alt={product.name} className='w-full h-80 rounded-md mb-2 object-cover' />
+                          
+                            <div className='w-full cursor-pointer relative' key={index} onMouseEnter={() => handleHover(index, true)} onMouseLeave={() => handleHover(index, false)}>
+                                <img src={product.image} alt={product.name} className='w-full h-80  mb-2 object-cover' />
                                 <img src={likes[index] ? '/liked.svg' : '/like.svg'} width={24} className='absolute right-5 top-5' alt=""
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -102,7 +81,7 @@ const Products = ({ filters }) => {
                                         updatedLikes[index] = !updatedLikes[index];
                                         setLikes(updatedLikes);
                                     }} />
-                                <div className='flex flex-col items-start'>
+                                <div className='flex flex-col items-start relative'>
                                     <Link href="/products" className='text-md font-medium'>
                                         {product.name}
                                     </Link>
@@ -114,6 +93,38 @@ const Products = ({ filters }) => {
                                         {generateRatingStars(product.rating)}
                                         ({product.reviews})
                                     </span>
+
+                                    <a href="/products" className={`w-full -top-12  flex items-center justify-center text-white text-center bgB absolute transition-transform h-10 transform  ${hoveredStates[index] ? 'opacity-1 ' : ' opacity-0'}`}>View Product</a>
+
+                                </div>
+                            </div>
+                        ))
+                        // All items
+                        : products.map((product, index) => (
+                            <div className='w-full cursor-pointer relative' key={index} onMouseEnter={() => handleHover(index, true)} onMouseLeave={() => handleHover(index, false)}>
+                                <img src={product.image} alt={product.name} className='w-full h-80  mb-2 object-cover' />
+                                <img src={likes[index] ? '/liked.svg' : '/like.svg'} width={24} className='absolute right-5 top-5' alt=""
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const updatedLikes = [...likes];
+                                        updatedLikes[index] = !updatedLikes[index];
+                                        setLikes(updatedLikes);
+                                    }} />
+                                <div className='flex flex-col items-start relative'>
+                                    <Link href="/products" className='text-md font-medium'>
+                                        {product.name}
+                                    </Link>
+                                    <div className='flex items-center gap-2'>
+                                        <span className=' line-through text-gray-400 font-normal'>{product.oldprice}</span>
+                                        <span className=' font-medium text-blue-500'>Rs. {product.price}</span>
+                                    </div>
+                                    <span className='flex items-center gap-2 text-xs'>
+                                        {generateRatingStars(product.rating)}
+                                        ({product.reviews})
+                                    </span>
+
+                                    <a href="/products" className={`w-full -top-12  flex items-center justify-center text-white text-center bgB absolute transition-transform h-10 transform  ${hoveredStates[index] ? 'opacity-1 ' : ' opacity-0'}`}>View Product</a>
+
                                 </div>
                             </div>
                         ))

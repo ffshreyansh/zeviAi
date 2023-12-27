@@ -8,7 +8,10 @@ import React, { useState } from 'react'
 
 const page = () => {
     const [clicked, setClicked] = useState(true);
-
+    const [brandClicked, setBrandClicked] = useState(true);
+    const [priceClicked, setPriceClicked] = useState(true);
+    const [ratingsClicked, setRatingsClicked] = useState(true);
+  
     const [filters, setFilters] = useState({
         // brand: [],
         price: [],
@@ -44,14 +47,14 @@ const page = () => {
             <div className='flex flex-col items-start gap-2 lg:gap-10'>
                 <span className='text-xl lg:text-3xl font-medium'>Search Results</span>
 
-                <div className='flex flex-col lg:flex-row items-start gap-3 lg:gap-8'>
+                <div className='flex flex-col lg:flex-row items-start gap-3 lg:gap-8 mt-4 lg:mt-0'>
                     <div className='w-full lg:w-1/4 h-fit lg:h-screen flex flex-row lg:flex-col items-start gap-5'>
-                        <div className='w-full h-fit mt-0 lg:mt-4 flex flex-col border-0 lg:border-b' onClick={() => setClicked(!clicked)}>
-                            <span className='flex items-center justify-between pb-2 uppercase font-medium text-md lg:text-xl cursor-pointer' >
+                        <div className='w-full h-fit mt-0 lg:mt-4 flex flex-col border-0 lg:border-b' >
+                            <span className='flex items-center justify-between pb-2 uppercase font-medium text-md lg:text-xl cursor-pointer' onClick={() => setBrandClicked(!brandClicked)}>
                                 Brand
                                 <img src={clicked ? '/down.svg' : '/up.svg'} alt="" />
                             </span>
-                            <motion.div className={`flex-col py-5 gap-3 ${clicked ? 'hidden' : 'flex'}`}
+                            <motion.div className={`flex-col py-5 gap-3 ${brandClicked ? 'hidden' : 'flex'}`}
 
                                 transition={{ type: "inertia", duration: 0.2 }}
                             >
@@ -66,12 +69,12 @@ const page = () => {
                             </motion.div>
 
                         </div>
-                        <div className='w-full flex flex-col h-fit border-0  lg:border-b' onClick={() => setClicked(!clicked)}>
-                            <span className='flex items-center justify-between uppercase font-medium text-md pb-2 lg:text-xl cursor-pointer '>
+                        <div className='w-full flex flex-col h-fit border-0  lg:border-b' >
+                            <span className='flex items-center justify-between uppercase font-medium text-md pb-2 lg:text-xl cursor-pointer ' onClick={() => setPriceClicked(!priceClicked)}>
                                 Price
                                 <img src={clicked ? '/down.svg' : '/up.svg'} alt="" />
                             </span>
-                            <motion.div className={`${clicked ? 'hidden' : 'flex'} flex-col py-5 gap-3 `}
+                            <motion.div className={`${priceClicked ? 'hidden' : 'flex'} flex-col py-5 gap-3 `}
                                 transition={{ type: "inertia", duration: 0.2 }}
                             >
                                 <span className='text-xs lg:text-lg font-normal flex items-center gap-2'>
@@ -79,18 +82,18 @@ const page = () => {
                                     Under 500
                                 </span>
                                 <span className='text-xs lg:text-lg font-normal flex items-center gap-2'>
-                                    <input type="checkbox" className='w-5 h-5' name="range" id="over5" />
+                                    <input type="checkbox" className='w-5 h-5' name="range" id="over5" onChange={() => handleFilterChange('price', [1000, 3000])} />
                                     1000 to 3000
                                 </span>
                             </motion.div>
 
                         </div>
-                        <div className='w-full flex flex-col h-fit border-0  lg:border-b' onClick={() => setClicked(!clicked)}>
-                            <span className='flex items-center justify-between uppercase pb-2 font-medium text-md lg:text-xl cursor-pointer '>
+                        <div className='w-full flex flex-col h-fit border-0  lg:border-b' >
+                            <span className='flex items-center justify-between uppercase pb-2 font-medium text-md lg:text-xl cursor-pointer ' onClick={() => setRatingsClicked(!ratingsClicked)}>
                                 Ratings
                                 <img src={clicked ? '/down.svg' : '/up.svg'} alt="" />
                             </span>
-                            <motion.div className={`${clicked ? 'hidden' : 'flex'} flex-col py-5 gap-3`}
+                            <motion.div className={`${ratingsClicked ? 'hidden' : 'flex'} flex-col py-5 gap-3`}
                                 transition={{ type: "inertia", duration: 0.2 }}
                             >
                                 <span className='text-xs lg:text-lg font-normal flex items-center gap-2'>

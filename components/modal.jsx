@@ -20,13 +20,7 @@ const Modal = ({ showModal }) => {
     const populars = Array.from({ length: 5 }, generateFakeProduct2);
 
 
-    console.log(latestTrends);
-
-    // const fadeInUpVariants = {
-    //     hidden: { opacity: 0, y: 30 },
-    //     visible: { opacity: 1, y: 0 },
-    //   };
-
+    
       const handleModalClick = (e) => {
         e.preventDefault();
       };

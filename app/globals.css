@@ -19,3 +19,7 @@ body::-webkit-scrollbar{
 {
 display: none;
 }
+
+.bgB{
+  background-color: rgba(130,147,235, .505);
+}
